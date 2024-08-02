@@ -136,3 +136,28 @@ public class App {
     <scope>provided</scope>
 </dependency>
 ```
+
+### Things to Know
+
+The **@FeignClient** annotation is used to define a Feign client in a Spring Boot application. [OpenFeign](https://github.com/OpenFeign/feign) is a declarative HTTP client originally developed by Netflix and integrated into Spring Cloud. It simplifies making HTTP requests by allowing you to create an interface that declares the endpoints you want to call, and Feign handles the implementation behind the scenes.
+
+Here's a breakdown of why and how `@FeignClient(value = "InterestClient", url = "http://localhost:8080")` is used:
+
+#### Purpose of @FeignClient
+* Declarative HTTP Client:
+    * The **@FeignClient** annotation defines a Feign client that is used to make HTTP requests to a RESTful web service. Instead of manually writing code to make HTTP requests using libraries like **HttpClient** or **RestTemplate**  , you define the HTTP endpoints and methods in an interface, and Feign generates the necessary implementation.
+
+* Client Configuration:
+    * **value** (or name): This is an identifier for the Feign client. It is useful if you have multiple Feign clients and need to differentiate between them. In this case, **"InterestClient"** is the name of the Feign client, which can be used for configuration or for identifying it in the context of your application.
+    * **url**: This specifies the base URL for the REST API that the Feign client will communicate with. In this case, `"http://localhost:8080"` indicates that the client will make requests to a server running locally on port 8080.
+
+#### How It Works
+* Interface Definition:
+    * By using **@FeignClient**, you define an interface **InterestClient** with methods annotated with **@PostMapping**, **@GetMapping**, **@PutMapping**, and **@DeleteMapping**. These annotations map to HTTP methods and endpoints.
+    * Feign generates the implementation of this interface at runtime, allowing you to call these methods as if they were local methods, but they actually perform HTTP requests to the specified base URL.
+    
+* Simplified API Calls:
+    * For example, **interestClient._create(i)** in the **AppInit** class translates to a POST request to **/interests** with the **Interest** object as the request body.
+    * Similarly, **interestClient._retrieve(1L)** performs a GET request to **/interests/{id}** and returns the **Interest** object with the specified id.    
+
+In conclusion, the **@FeignClient** annotation simplifies and abstracts the process of making HTTP requests to a RESTful API. It eliminates the need for manually creating and managing HTTP connections and parsing responses. Instead, you define an interface with annotations to represent the API endpoints, and Feign handles the rest, making your code cleaner and more maintainable.
