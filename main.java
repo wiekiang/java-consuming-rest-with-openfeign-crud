@@ -1,4 +1,4 @@
-package au.edu.cqu.wk4tuteconsuminginterests_openfeign_datarest;
+package au.edu.cqu.App;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue; 
